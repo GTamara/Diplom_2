@@ -11,5 +11,10 @@ class Urls:
     CANCEL_ORDER_PATH = '/api/v1/orders/cancel'
     ACCEPT_ORDER_PATH = '/api/v1/orders/accept/'
 
+    # Получение данных об ингредиентах
+    GET_INGREDIENTS_PATH = '/api/ingredients'
+    ORDER_BASE_PATH = '/api/orders'
+
+
 
 

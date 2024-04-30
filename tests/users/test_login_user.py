@@ -2,20 +2,21 @@ import allure
 import pytest
 
 from constants.response_error_messages import ResponseErrorMessages
-from helper_functions.login_user import LoginUser
-from  helper_functions.shared_helper_funcs import SharedHelperFuncs
+from helper_functions.users.login_user import LoginUser
+from helper_functions.users.shared_helper_funcs import SharedHelperFuncs
 
 
 class TestLoginUser:
 
     def test_login_user(self, user_login_valid_creds): # : dict[str, str]
         login = LoginUser()
-        response = login.login_user(user_login_valid_creds)
+        auth_data = user_login_valid_creds['auth_data']
+        response = login.login_user(auth_data)
         assert response.status_code == 200
         assert response.reason == 'OK'
         assert response.json()['success'] == True
-        assert response.json()['user']['email'] == user_login_valid_creds['email']
-        assert response.json()['user']['name'] == user_login_valid_creds['name']
+        assert response.json()['user']['email'] == auth_data['email']
+        assert response.json()['user']['name'] == auth_data['name']
         assert 'accessToken' in response.json()
         assert 'refreshToken' in response.json()
 
@@ -28,17 +29,19 @@ class TestLoginUser:
         'missed_payload_field_value',
         [
             '',
-            SharedHelperFuncs().generate_email(10),
+            SharedHelperFuncs().generate_random_email(10),
         ]
     )
     def test_login_user_with_with_not_all_required_params_fail(
             self,
             missed_payload_field_key,
             missed_payload_field_value,
-            user_login_valid_creds):
+            user_login_valid_creds
+    ):
         login = LoginUser()
+        auth_data = user_login_valid_creds['auth_data']
         login_payload = {
-            **user_login_valid_creds,
+            **auth_data,
             missed_payload_field_key: missed_payload_field_value,
         }
         response = login.login_user(login_payload)

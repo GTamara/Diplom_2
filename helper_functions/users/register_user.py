@@ -3,7 +3,7 @@ import requests
 from requests import Response
 
 from constants.urls import Urls
-from helper_functions.shared_helper_funcs import SharedHelperFuncs
+from helper_functions.users.shared_helper_funcs import SharedHelperFuncs
 
 
 class RegisterUser:
@@ -12,7 +12,7 @@ class RegisterUser:
     @allure.step('Сформировать тело запроса для регистрации курьера')
     def get_register_payload() -> dict[str, str]:
         helper_funcs = SharedHelperFuncs()
-        email = helper_funcs.generate_email(10)
+        email = helper_funcs.generate_random_email(10)
         password = helper_funcs.generate_random_string(8)
         name = helper_funcs.generate_random_string(5)
 

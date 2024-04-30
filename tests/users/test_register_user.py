@@ -2,7 +2,7 @@ import allure
 import pytest
 
 from constants.response_error_messages import ResponseErrorMessages
-from helper_functions.register_user import RegisterUser
+from helper_functions.users.register_user import RegisterUser
 
 
 class TestRegisterUser:
