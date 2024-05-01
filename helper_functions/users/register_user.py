@@ -15,7 +15,6 @@ class RegisterUser:
         email = helper_funcs.generate_random_email(10)
         password = helper_funcs.generate_random_string(8)
         name = helper_funcs.generate_random_string(5)
-
         return {
             'email': email,
             'password': password,

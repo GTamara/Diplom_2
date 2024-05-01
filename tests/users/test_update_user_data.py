@@ -1,3 +1,5 @@
+from typing import Generator, Any
+
 import allure
 import pytest
 
@@ -66,4 +68,32 @@ class TestUpdateUserData:
                == response_data_before_updating['user']['name']
         assert response_data_after_updating['user']['email'] \
                == response_data_before_updating['user']['email']
+
+    def test_register_user_with_used_email_fail(
+        self,
+        user_login_valid_creds: dict[str, str],
+        logged_user_access_token: str
+    ):
+        use_data_actions = UserDataActions()
+        # получить данные юзера перед попыткой обновления данных
+        response_data_before_updating = use_data_actions.get_user_data(logged_user_access_token) \
+            .json()
+        update_data_payload = {
+            **response_data_before_updating,
+            'email': user_login_valid_creds['auth_data']['email']
+        }
+        update_data_response = use_data_actions.update_user_data(
+            update_data_payload,
+            logged_user_access_token
+        )
+        assert update_data_response.status_code == 403
+        assert update_data_response.reason == 'Forbidden'
+        assert update_data_response.json()['success'] == False
+        assert update_data_response.json()['message'] == ResponseErrorMessages.EMAIL_ALREADY_IN_USE
+        # проверяем, что почта не изменилась
+        response_data_after_updating = use_data_actions.get_user_data(logged_user_access_token) \
+            .json()
+        assert response_data_after_updating['user']['email'] \
+               == response_data_before_updating['user']['email']
+
 

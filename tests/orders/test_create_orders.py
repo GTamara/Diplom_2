@@ -24,7 +24,7 @@ class TestCreateOrders:
     def test_create_order_for_authorized_user_success(self, ingredients_list, logged_user_access_token):
         create_order = CreateOrders()
         payload = {
-            'ingredients': ingredients_list
+            'ingredients': [ingredients_list[0]]
         }
         response = create_order.create_order(
             payload,

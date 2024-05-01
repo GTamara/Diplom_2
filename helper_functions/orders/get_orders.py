@@ -6,10 +6,13 @@ from constants.urls import Urls
 
 class GetOrders:
 
-    pass
-
-
-        # @staticmethod
-        # def update_user_data(token: str, payload: dict[str, str], isAuthorized: bool = True) -> Response:
+    @staticmethod
+    def get_user_orders(token: str | None) -> Response:
+        headers = {'Authorization': token} if token else {}
+        response = requests.get(
+            Urls.HOST + Urls.GET_ORDERS_PATH,
+            headers=headers,
+        )
+        return response
 
 

@@ -22,13 +22,12 @@ from helper_functions.users.shared_helper_funcs import SharedHelperFuncs
 
 
 @pytest.fixture(scope="function")
-def user_login_valid_creds() -> Generator[dict[str, dict[str, str]], Any, None]:
+def user_login_valid_creds() -> Generator[dict[str, str | dict[str, str]], Any, None]:
     register_user = RegisterUser()
     user_auth_data = register_user.get_register_user_payload()
     login_user = LoginUser()
-    login_resp = login_user.login_user(user_auth_data) \
-        .json()
-    token = login_resp['accessToken']
+    login_resp = login_user.login_user(user_auth_data).json()
+    token: str = login_resp['accessToken']
     yield {
         'auth_data': user_auth_data,
         'access_token': token
