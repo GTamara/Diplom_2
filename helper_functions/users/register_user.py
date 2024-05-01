@@ -3,7 +3,7 @@ import requests
 from requests import Response
 
 from constants.urls import Urls
-from helper_functions.users.shared_helper_funcs import SharedHelperFuncs
+from helper_functions.shared_helper_funcs import SharedHelperFuncs
 
 
 class RegisterUser:

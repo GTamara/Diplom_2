@@ -1,10 +1,8 @@
-from typing import Generator, Any
-
 import allure
 import pytest
 
 from constants.response_error_messages import ResponseErrorMessages
-from helper_functions.users.shared_helper_funcs import SharedHelperFuncs
+from helper_functions.shared_helper_funcs import SharedHelperFuncs
 from helper_functions.users.user_data_actions import UserDataActions
 
 

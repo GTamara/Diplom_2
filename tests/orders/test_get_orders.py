@@ -1,6 +1,6 @@
 from helper_functions.orders.create_orders import CreateOrders
 from helper_functions.orders.get_orders import GetOrders
-from helper_functions.users.shared_helper_funcs import SharedHelperFuncs
+from helper_functions.shared_helper_funcs import SharedHelperFuncs
 
 
 class TestGetOrders:

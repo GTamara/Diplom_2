@@ -3,7 +3,7 @@ import pytest
 
 from constants.response_error_messages import ResponseErrorMessages
 from helper_functions.users.login_user import LoginUser
-from helper_functions.users.shared_helper_funcs import SharedHelperFuncs
+from helper_functions.shared_helper_funcs import SharedHelperFuncs
 
 
 class TestLoginUser:

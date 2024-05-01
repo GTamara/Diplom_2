@@ -5,7 +5,7 @@ from helper_functions.orders.create_orders import CreateOrders
 from helper_functions.users.delete_user import DeleteUser
 from helper_functions.users.login_user import LoginUser
 from helper_functions.users.register_user import RegisterUser
-from helper_functions.users.shared_helper_funcs import SharedHelperFuncs
+from helper_functions.shared_helper_funcs import SharedHelperFuncs
 
 
 @pytest.fixture(scope="function")
