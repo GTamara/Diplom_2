@@ -20,7 +20,7 @@ class TestCreateOrders:
         assert response.status_code == 401
         assert response.reason == 'Unauthorized'
 
-    @allure.title('Создание заказа. Авторизованный пользователь может создать заказ со списком ингредиентов')
+    @allure.title('Создание заказа. Авторизованный пользователь может создать заказ с выбранными ингредиентами')
     def test_create_order_for_authorized_user_success(self, ingredients_list, logged_user_access_token):
         create_order = CreateOrders()
         payload = {
@@ -34,13 +34,12 @@ class TestCreateOrders:
         assert response.status_code == 200
         assert response.reason == 'OK'
         assert response_data['success'] == True
-        # response_data['order']['ingredients']
         order_ingredients_list = SharedHelperFuncs().get_ingredients_list(
             response_data['order']['ingredients']
         )
         assert order_ingredients_list == ingredients_list
 
-    @allure.title('Создание заказа. Авторизованный пользователь может создать заказ с пустым списком ингредиентов')
+    @allure.title('Создание заказа. Авторизованный пользователь не может создать заказ с пустым списком ингредиентов')
     def test_create_order_for_empty_ingredients_list_fail(self, logged_user_access_token):
         create_order = CreateOrders()
         payload = {

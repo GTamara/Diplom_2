@@ -18,7 +18,7 @@ class UserDataActions:
         return response
 
     @staticmethod
-    @allure.step('Отправить запрос на получение данных пользователя')
+    @allure.step('Отправить запрос на изменение данных пользователя')
     def update_user_data( payload: dict[str, str],token: str | None) -> Response:
         headers = {'Authorization': token} if token else {}
         response = requests.patch(

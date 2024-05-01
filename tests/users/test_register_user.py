@@ -7,7 +7,7 @@ from helper_functions.users.register_user import RegisterUser
 
 class TestRegisterUser:
 
-    @allure.title('Регистрация курьера. Если переданы валидные логин, пароль и имя, успешна')
+    @allure.title('Регистрация пользователя успешна, если переданы допустимые логин, пароль и имя')
     def test_register_courier_with_all_fields_filled_success(self):
         register_courier = RegisterUser()
         payload = register_courier.get_register_payload()
@@ -32,7 +32,8 @@ class TestRegisterUser:
         assert response.reason == 'Forbidden'
         assert response.json()['message'] == ResponseErrorMessages.USER_ALREADY_EXISTS
 
-    @allure.title('Регистрация курьера. Если переданы данные существующего курьера, не успешна')
+    @allure.title('Регистрация пользователя неуспешна, если переданы данные не все обязательные параметры. Тест для '
+                  'отсутствующегоп поля {missed_payload_field}')
     @pytest.mark.parametrize(
         'missed_payload_field',
         [

@@ -20,7 +20,8 @@ class TestLoginUser:
         assert 'accessToken' in response.json()
         assert 'refreshToken' in response.json()
 
-    @allure.title('Авторизация пользователя. Если передан некорректный логин или пароль, то авторизация неуспешна')
+    @allure.title('Авторизация пользователя. Если передан некорректный логин или пароль, то авторизация неуспешна. '
+                  'Тест для поля {missed_payload_field_key}')
     @pytest.mark.parametrize(
         'missed_payload_field_key',
         [ 'email', 'password' ]

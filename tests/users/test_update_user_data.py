@@ -10,12 +10,16 @@ from helper_functions.users.user_data_actions import UserDataActions
 
 class TestUpdateUserData:
 
-    @allure.title('Изменение данных пользователя пользователя. Изменение поля {field_to_update} успешно')
+    @allure.title('Изменение данных пользователя. Изменение поля {field_to_update} успешно')
     @pytest.mark.parametrize(
         'field_to_update',
         ['name', 'email', 'password']
     )
-    def test_update_authorized_user_data_with_valid_data_success(self, field_to_update, logged_user_access_token):
+    def test_update_authorized_user_data_with_valid_data_success(
+        self,
+        field_to_update: str,
+        logged_user_access_token: str
+    ):
         use_data_actions = UserDataActions()
         get_data_response = use_data_actions.get_user_data(logged_user_access_token) \
             .json()
@@ -35,64 +39,71 @@ class TestUpdateUserData:
         assert update_data_response.json()['user']['name'] == update_data_payload['name']
         assert 'password' not in  update_data_response.json()['user']
 
-    @allure.title('Изменение данных пользователя пользователя. Изменение поля {field_to_update} успешно')
+    @allure.title('Изменение данных неавторизованного пользователя неуспешно. Тест для изменения поля {field_to_update}')
     @pytest.mark.parametrize(
         'field_to_update',
         ['name', 'email', 'password']
     )
-    def test_update_unauthorized_user_data_with_valid_data_fail(self, field_to_update, logged_user_access_token):
+    def test_update_unauthorized_user_data_with_valid_data_fail(
+        self,
+        field_to_update: str,
+        logged_user_access_token: str
+    ):
         use_data_actions = UserDataActions()
-        # получить данные юзера перед попыткой обновления данных
-        response_data_before_updating = use_data_actions.get_user_data(logged_user_access_token) \
-            .json()
-        new_field_value = SharedHelperFuncs().generate_random_email(10)
-        update_data_payload = {
-            **response_data_before_updating['user'],
-            field_to_update: new_field_value,
-        }
-        # попытка обновления данных
-        update_data_response = use_data_actions.update_user_data(
-            update_data_payload,
-            None
-        )
+        with allure.step('получить данные пользователя перед попыткой обновления данных'):
+            response_data_before_updating = use_data_actions.get_user_data(logged_user_access_token) \
+                .json()
+            new_field_value = SharedHelperFuncs().generate_random_email(10)
+            update_data_payload = {
+                **response_data_before_updating['user'],
+                field_to_update: new_field_value,
+            }
+        with allure.step('попытка обновления данных неавторизованного пользователя'):
+            update_data_response = use_data_actions.update_user_data(
+                update_data_payload,
+                None
+            )
         update_data_response_json = update_data_response.json()
         assert update_data_response.status_code == 401
         assert update_data_response.reason == 'Unauthorized'
         assert update_data_response_json['success'] == False
         assert update_data_response_json['message'] == ResponseErrorMessages.NOT_AUTHORIZED
         assert 'user' not in update_data_response_json
-        # получить данные юзера после попытки обновления данных и проверка, что данные не изменились
-        response_data_after_updating = use_data_actions.get_user_data(logged_user_access_token) \
-            .json()
+        with allure.step('получить данные пользователя после попытки обновления данных и проверить, что данные не '
+                         'изменились'):
+            response_data_after_updating = use_data_actions.get_user_data(logged_user_access_token) \
+                .json()
         assert response_data_after_updating['user']['name'] \
                == response_data_before_updating['user']['name']
         assert response_data_after_updating['user']['email'] \
                == response_data_before_updating['user']['email']
 
+    @allure.title(
+        'Изменение данных существующего пользователя. Попытка присвоить email существующего пользователя неуспешна')
     def test_register_user_with_used_email_fail(
         self,
         user_login_valid_creds: dict[str, str],
         logged_user_access_token: str
     ):
         use_data_actions = UserDataActions()
-        # получить данные юзера перед попыткой обновления данных
-        response_data_before_updating = use_data_actions.get_user_data(logged_user_access_token) \
-            .json()
+        with allure.step('получить данные пользователя перед попыткой обновления email'):
+            response_data_before_updating = use_data_actions.get_user_data(logged_user_access_token) \
+                .json()
         update_data_payload = {
             **response_data_before_updating,
             'email': user_login_valid_creds['auth_data']['email']
         }
-        update_data_response = use_data_actions.update_user_data(
-            update_data_payload,
-            logged_user_access_token
-        )
+        with allure.step('Отправить запрос на изменение email и проверить, что он не изменился'):
+            update_data_response = use_data_actions.update_user_data(
+                update_data_payload,
+                logged_user_access_token
+            )
+            response_data_after_updating = use_data_actions.get_user_data(logged_user_access_token) \
+                .json()
         assert update_data_response.status_code == 403
         assert update_data_response.reason == 'Forbidden'
         assert update_data_response.json()['success'] == False
         assert update_data_response.json()['message'] == ResponseErrorMessages.EMAIL_ALREADY_IN_USE
-        # проверяем, что почта не изменилась
-        response_data_after_updating = use_data_actions.get_user_data(logged_user_access_token) \
-            .json()
         assert response_data_after_updating['user']['email'] \
                == response_data_before_updating['user']['email']
 
