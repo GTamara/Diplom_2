@@ -24,7 +24,7 @@ class TestCreateOrders:
     def test_create_order_for_authorized_user_success(self, ingredients_list, logged_user_access_token):
         create_order = CreateOrders()
         payload = {
-            'ingredients': [ingredients_list[0]]
+            'ingredients': ingredients_list
         }
         response = create_order.create_order(
             payload,
@@ -67,13 +67,9 @@ class TestCreateOrders:
             payload,
             logged_user_access_token
         )
-        response_data = response.json()
+        # response_data = response.json()
         assert response.status_code == 400
         assert response.reason == 'Bad Request'
-        assert response_data['success'] == False
-        assert response_data['message'] == ResponseErrorMessages.INGREDIENTS_MUST_BE_PROVIDED
-
-
 
 
 

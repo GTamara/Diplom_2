@@ -1,4 +1,3 @@
-import datetime
 import random
 import string
 
@@ -22,7 +21,7 @@ class SharedHelperFuncs:
 
     @staticmethod
     @allure.step('Получить список ингредиентов')
-    def get_ingredients_list(self, ingredients_obj: dict[str, list]):
+    def get_ingredients_list(ingredients_obj: dict[str, list]):
         return list(
             map(
                 lambda item: item['_id'], ingredients_obj

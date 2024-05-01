@@ -3,8 +3,11 @@
 ## Установка зависимостей
 pip install -r requirements.txt 
 
+## Запуск тестов
+pytest tests
+
 ## Генерация отчета
-pytest tests.py --alluredir=allure_results 
+pytest tests --alluredir=allure_results 
 allure serve allure_results
 
 ## Актуализировать requirements.txt

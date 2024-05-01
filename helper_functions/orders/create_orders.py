@@ -1,8 +1,8 @@
 from typing import Any
 
+import allure
 import requests
 from requests import Response
-import json
 
 from constants.urls import Urls
 
@@ -10,6 +10,7 @@ from constants.urls import Urls
 class CreateOrders:
 
     @staticmethod
+    @allure.step('Отправить запрос на создание заказа. Список ингредиентов {payload}')
     def create_order(
         payload: dict[str, Any],
         token: str | None,
@@ -20,11 +21,10 @@ class CreateOrders:
             headers=headers,
             data=payload
         )
-        # if response.status_code == 200:
         return response
-        # raise Exception('Произошла ошибка при создании заказа')
 
     @staticmethod
+    @allure.step('Отправить запрос на получение ингредиентов')
     def get_ingredients() -> Response:
         response = requests.get(
             Urls.HOST + Urls.GET_INGREDIENTS_PATH,
