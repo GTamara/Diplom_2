@@ -67,7 +67,6 @@ class TestCreateOrders:
             payload,
             logged_user_access_token
         )
-        # response_data = response.json()
         assert response.status_code == 400
         assert response.reason == 'Bad Request'
 

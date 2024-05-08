@@ -89,7 +89,7 @@ class TestUpdateUserData:
                 .json()
         update_data_payload = {
             **response_data_before_updating,
-            'email': user_login_valid_creds['auth_data']['email']
+            'email': user_login_valid_creds['email']
         }
         with allure.step('Отправить запрос на изменение email и проверить, что он не изменился'):
             update_data_response = use_data_actions.update_user_data(
