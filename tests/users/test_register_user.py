@@ -33,7 +33,7 @@ class TestRegisterUser:
         assert response.json()['message'] == ResponseErrorMessages.USER_ALREADY_EXISTS
 
     @allure.title('Регистрация пользователя неуспешна, если переданы данные не все обязательные параметры. Тест для '
-                  'отсутствующегоп поля {missed_payload_field}')
+                  'отсутствующего поля {missed_payload_field}')
     @pytest.mark.parametrize(
         'missed_payload_field',
         [

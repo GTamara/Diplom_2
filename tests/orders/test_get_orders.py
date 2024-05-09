@@ -1,3 +1,5 @@
+import allure
+
 from helper_functions.orders.create_orders import CreateOrders
 from helper_functions.orders.get_orders import GetOrders
 from helper_functions.shared_helper_funcs import SharedHelperFuncs
@@ -5,6 +7,7 @@ from helper_functions.shared_helper_funcs import SharedHelperFuncs
 
 class TestGetOrders:
 
+    @allure.title('Создание заказа. Авторизованный пользователь может получить список своих заказов')
     def test_get_authorized_user_orders(
         self,
         ingredients_list: list[str],
@@ -30,6 +33,7 @@ class TestGetOrders:
             SharedHelperFuncs().get_ingredients_list(create_order_response_data['order']['ingredients'])
         assert response_data['orders'][0]['createdAt'] == create_order_response_data['order']['createdAt']
 
+    @allure.title('Создание заказа. Неавторизованный пользователь не может получить список своих заказов')
     def test_get_unauthorized_user_orders(self):
         get_orders = GetOrders()
         response = get_orders.get_user_orders(None)
