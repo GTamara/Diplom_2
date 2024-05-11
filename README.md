@@ -1,4 +1,4 @@
-# Diplom_2
+### API тесты
 
 ## Установка зависимостей
 pip install -r requirements.txt 
