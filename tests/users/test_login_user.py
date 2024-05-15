@@ -8,8 +8,7 @@ from helper_functions.shared_helper_funcs import SharedHelperFuncs
 
 class TestLoginUser:
 
-    # @allure.title('Авторизация пользователя. Если переданы корректные логин или пароль, то авторизация успешна.'
-    #               'Тест для поля {missed_payload_field_key}')
+    @allure.title('Авторизация пользователя. Если переданы корректные логин или пароль, то авторизация успешна.')
     def test_login_user(self, user_login_valid_creds: dict[str, str]):
         login = LoginUser()
         response = login.login_user(user_login_valid_creds)
@@ -23,15 +22,24 @@ class TestLoginUser:
 
     @allure.title('Авторизация пользователя. Если передан некорректный логин или пароль, то авторизация неуспешна.'
                   'Тест для поля {missed_payload_field_key}')
+    # @pytest.mark.parametrize(
+    #     'missed_payload_field_key',
+    #     [ 'email', 'password' ]
+    # )
+    # @pytest.mark.parametrize(
+    #     'missed_payload_field_value',
+    #     [
+    #         '',
+    #         SharedHelperFuncs().generate_random_email(),
+    #     ]
+    # )
     @pytest.mark.parametrize(
-        'missed_payload_field_key',
-        [ 'email', 'password' ]
-    )
-    @pytest.mark.parametrize(
-        'missed_payload_field_value',
+        'missed_payload_field_key, missed_payload_field_value',
         [
-            '',
-            SharedHelperFuncs().generate_random_email(10),
+            ('email', ''),
+            ('email', SharedHelperFuncs().generate_random_email()),
+            ('password', ''),
+            ('password', SharedHelperFuncs().generate_password()),
         ]
     )
     def test_login_user_with_with_not_all_required_params_fail(

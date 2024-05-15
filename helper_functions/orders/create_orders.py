@@ -17,7 +17,7 @@ class CreateOrders:
     ) -> Response:
         headers = {'Authorization': token} if token else {}
         response = requests.post(
-            Urls.HOST + Urls.ORDER_BASE_PATH, # ORDER_BASE_PATH
+            Urls.HOST + Urls.ORDER_BASE_PATH,
             headers=headers,
             data=payload
         )

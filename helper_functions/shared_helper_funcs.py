@@ -13,10 +13,10 @@ class SharedHelperFuncs:
         rand_string = ''.join(random.choice(letters) for i in range(length))
         return rand_string
 
-    def generate_password(self, length: int) -> str:
+    def generate_password(self, length: int = 10) -> str:
         return self.generate_random_string(length)
 
-    def generate_random_email(self, length: int) -> str:
+    def generate_random_email(self, length: int = 10) -> str:
         return self.generate_random_string(length) + '@yandex.ru'
 
     @staticmethod
