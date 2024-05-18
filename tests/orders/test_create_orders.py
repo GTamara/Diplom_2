@@ -21,7 +21,11 @@ class TestCreateOrders:
         assert response.reason == 'Unauthorized'
 
     @allure.title('Создание заказа. Авторизованный пользователь может создать заказ с выбранными ингредиентами')
-    def test_create_order_for_authorized_user_success(self, ingredients_list, logged_user_access_token):
+    def test_create_order_for_authorized_user_success(
+        self,
+        ingredients_list,
+        logged_user_access_token: str,
+    ):
         create_order = CreateOrders()
         payload = {
             'ingredients': ingredients_list
@@ -40,7 +44,10 @@ class TestCreateOrders:
         assert order_ingredients_list == ingredients_list
 
     @allure.title('Создание заказа. Авторизованный пользователь не может создать заказ с пустым списком ингредиентов')
-    def test_create_order_for_empty_ingredients_list_fail(self, logged_user_access_token):
+    def test_create_order_for_empty_ingredients_list_fail(
+        self,
+        logged_user_access_token: str,
+    ):
         create_order = CreateOrders()
         payload = {
             'ingredients': []
@@ -56,7 +63,11 @@ class TestCreateOrders:
         assert response_data['message'] == ResponseErrorMessages.INGREDIENTS_MUST_BE_PROVIDED
 
     @allure.title('Создание заказа. Авторизованный пользователь может создать заказ с пустым списком ингредиентов')
-    def test_create_order_with_incorrect_ingredient_hash_fail(self, ingredients_list, logged_user_access_token):
+    def test_create_order_with_incorrect_ingredient_hash_fail(
+        self,
+        ingredients_list,
+        logged_user_access_token: str,
+    ):
         create_order = CreateOrders()
         payload = {
             'ingredients': [

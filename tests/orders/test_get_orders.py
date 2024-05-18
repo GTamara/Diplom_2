@@ -12,7 +12,7 @@ class TestGetOrders:
     def test_get_authorized_user_orders(
         self,
         ingredients_list: list[str],
-        logged_user_access_token: str
+        logged_user_access_token: str,
     ):
         create_order = CreateOrders()
         payload = {
@@ -30,10 +30,10 @@ class TestGetOrders:
         assert response_data['success'] == True
         assert len(response_data['orders']) == 1
         order = OrderModel(**response_data['orders'][0])
-        assert order['number'] == create_order_response_data['order']['number']
-        assert order['ingredients'] == \
+        assert order.number == create_order_response_data['order']['number']
+        assert order.ingredients == \
             SharedHelperFuncs().get_ingredients_list(create_order_response_data['order']['ingredients'])
-        assert order['createdAt'] == create_order_response_data['order']['createdAt']
+        assert order.createdAt == create_order_response_data['order']['createdAt']
 
     @allure.title('Создание заказа. Неавторизованный пользователь не может получить список своих заказов')
     def test_get_unauthorized_user_orders(self):

@@ -1,4 +1,3 @@
-import re
 from pydantic import BaseModel
 
 class OrderModel(BaseModel):
@@ -6,6 +5,5 @@ class OrderModel(BaseModel):
     ingredients: list[str]
     createdAt: str
     name: str
-    # price: int
     status: str
     updatedAt: str
